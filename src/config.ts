@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const config = {
-    env: "development",
+    env: process.env.NODE_ENV,
     port: Number(process.env.PORT) || 5000,
     db: process.env.MONGO_URI || "",
     jwt: process.env.JWT_TOKEN || '',
