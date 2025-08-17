@@ -19,9 +19,10 @@ export class UploadController {
 
     public editImage = async (req: CustomRequest, res: Response): Promise<void> => {
         const imageId = req.params.id;
+        const userId = req.userId as string;
         const { title } = req.body;
         const file = req.file;
-        const result = await this._service.editImage(imageId as string, title, file);
+        const result = await this._service.editImage(userId, imageId as string, title, file);
         res.status(result.status).json({message: result.message, image: result.image});
     }
 

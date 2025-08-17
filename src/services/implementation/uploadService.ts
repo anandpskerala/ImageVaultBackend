@@ -21,6 +21,27 @@ export class UploadService implements IUploadService {
                     status: StatusCode.BAD_REQUEST
                 }
             }
+
+            const sanitizedTitles = titles.map(title => title.trim()).filter(title => title.length > 0);
+
+            if (sanitizedTitles.length !== titles.length) {
+                return {
+                    message: "Titles must be an array matching the number of files",
+                    status: StatusCode.BAD_REQUEST,
+                };
+            }
+
+            const existingTitles = await this._repo.findByQuery({
+                userId,
+                title: { $in: sanitizedTitles },
+            });
+            if (existingTitles.length > 0) {
+                return {
+                    message: "One or more titles already exist",
+                    status: StatusCode.BAD_REQUEST,
+                };
+            }
+
             let position = await this._repo.findLastPosition(userId);
             const uploads: UploadDTO[] = await uploadMultipleFile(titles, files, userId, position);
             const images = await this._repo.uploadFiles(uploads);
@@ -39,7 +60,7 @@ export class UploadService implements IUploadService {
     }
 
 
-    async editImage(imageId: string, title: string, file?: Express.Multer.File): Promise<ImageReturnType> {
+    async editImage(userId: string, imageId: string, title: string, file?: Express.Multer.File): Promise<ImageReturnType> {
         try {
             const asset = await this._repo.findById(imageId);
             if (!asset) {
@@ -47,6 +68,18 @@ export class UploadService implements IUploadService {
                     message: "Image not found",
                     status: StatusCode.BAD_REQUEST
                 }
+            }
+
+            const existingTitles = await this._repo.findByQuery({
+                userId,
+                title: title,
+                _id: { $ne: imageId }
+            });
+            if (existingTitles.length > 0) {
+                return {
+                    message: "One or more titles already exist",
+                    status: StatusCode.BAD_REQUEST,
+                };
             }
 
             asset.title = title;
@@ -126,7 +159,7 @@ export class UploadService implements IUploadService {
             }
 
             const updatePromises = images.map(({ id, position }) =>
-                this._repo.updateWithQuery(id as string, {position})
+                this._repo.updateWithQuery(id as string, { position })
             );
 
             await Promise.all(updatePromises);
