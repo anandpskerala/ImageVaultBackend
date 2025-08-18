@@ -40,15 +40,15 @@ export class AuthService implements IAuthService {
             const accessToken = generateAccessToken(existing.id as string, existing.email);
             res.cookie("accessToken", accessToken, {
                 httpOnly: true,
-                secure: config.env === "production",
-                sameSite: config.env === "production" ? 'none' : 'lax',
+                secure: true,
+                sameSite: "none",
                 maxAge: 15 * 60 * 1000
             });
 
             res.cookie("refreshToken", refreshToken, {
                 httpOnly: true,
-                secure: config.env === "production",
-                sameSite: config.env === "production" ? 'none' : 'lax',
+                secure: true,
+                sameSite: "none",
                 path: "/",
                 maxAge: 7 * 24 * 60 * 60 * 1000
             });
@@ -79,15 +79,15 @@ export class AuthService implements IAuthService {
             const accessToken = generateAccessToken(newUser.id as string, newUser.email);
             res.cookie("accessToken", accessToken, {
                 httpOnly: true,
-                secure: config.env === "production",
-                sameSite: config.env === "production" ? 'none' : 'lax',
+                secure: true,
+                sameSite: "none",
                 maxAge: 15 * 60 * 1000
             });
 
             res.cookie("refreshToken", refreshToken, {
                 httpOnly: true,
-                secure: config.env === "production",
-                sameSite: 'none',
+                secure: true,
+                sameSite: "none",
                 path: "/",
                 maxAge: 7 * 24 * 60 * 60 * 1000
             });
@@ -118,8 +118,8 @@ export class AuthService implements IAuthService {
 
             res.cookie("accessToken", accessToken, {
                 httpOnly: true,
-                secure: config.env === "production",
-                sameSite: config.env === "production" ? 'none' : 'lax',
+                secure: true,
+                sameSite: "none",
                 maxAge: 15 * 60 * 1000
             });
 
