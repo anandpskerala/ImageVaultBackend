@@ -13,7 +13,6 @@ class App {
         this._app = express();
         this._setupMiddlewares();
         this._setupRoutes();
-        console.log(config);
     }
 
     private _setupMiddlewares() {

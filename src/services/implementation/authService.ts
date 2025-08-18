@@ -155,8 +155,20 @@ export class AuthService implements IAuthService {
     }
 
     public async logOut(res: Response): Promise<UserReturnType> {
-        res.clearCookie("accessToken");
-        res.clearCookie("refreshToken");
+        res.clearCookie("accessToken",
+            {
+                httpOnly: true,
+                secure: true,
+                sameSite: "none",
+                path: "/",
+            }
+        );
+        res.clearCookie("refreshToken", {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            path: "/",
+        });
         return { message: "Logout successful", status: StatusCode.OK };
     }
 
@@ -243,7 +255,7 @@ ImageVault Team`,
 
     public async resetPassword(requestId: string, newPassword: string): Promise<UserReturnType> {
         try {
-            const token = await this._resetRepo.findOne({requestId});
+            const token = await this._resetRepo.findOne({ requestId });
             if (!token) {
                 return {
                     message: "Invalid or expired token",
@@ -252,7 +264,7 @@ ImageVault Team`,
             }
 
             const password = await bcrypt.hash(newPassword, 10);
-            await this._repository.update(token.userId.toString(), {password});
+            await this._repository.update(token.userId.toString(), { password });
             return {
                 message: "Password reset successful",
                 status: StatusCode.OK
