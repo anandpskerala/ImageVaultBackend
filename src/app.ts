@@ -20,9 +20,9 @@ class App {
         this._app.use(express.urlencoded({extended: true}));
         this._app.use(cookieParser());
         this._app.use(cors({
-            origin: [config.frontend],
+            origin: config.frontend,
             credentials: true
-        }))
+        }));
     }
 
     private _setupRoutes() {
