@@ -9,7 +9,7 @@ export interface IUploadRepository {
     delete(id: string): Promise<void>;
     uploadFiles(files: UploadDTO[]): Promise<IUpload[]>;
     findLastPosition(userId: string): Promise<number>;
-    getImages(userId: string): Promise<{images: IUpload[], total: number}>;
+    getImages(userId: string, page: number, search: string, limit: number): Promise<{images: IUpload[], total: number}>;
     findByQuery(query: FilterQuery<IUpload>): Promise<IUpload[]>;
     updateWithQuery(id: string, query: FilterQuery<IUpload>): Promise<void>
 }

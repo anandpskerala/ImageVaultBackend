@@ -5,6 +5,6 @@ export interface IUploadService {
     uploadImages(userId: string, files: Express.Multer.File[], titles: string[]): Promise<UploadReturnType>;
     editImage(userId: string, imageId: string, title: string, file?: Express.Multer.File): Promise<ImageReturnType>;
     deleteImage(imageId: string): Promise<ImageReturnType>;
-    getImages(userId: string): Promise<UploadReturnType & {total?: number}>;
+    getImages(userId: string, page: number, search: string, limit: number): Promise<UploadReturnType & {total?: number}>;
     reArrangeOrder(userId: string, images: IUpload[]): Promise<UploadReturnType>;
 }

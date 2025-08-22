@@ -25,9 +25,10 @@ export class UploadRepository extends BaseRepository<IUpload> implements IUpload
     }
 
 
-    async getImages(userId: string): Promise<{images: IUpload[], total: number}> {
+    async getImages(userId: string, page: number, search: string, limit: number): Promise<{images: IUpload[], total: number}> {
+        const skip = (page - 1) * limit;
         const [images, total] = await Promise.all([
-            this._model.find({userId}).sort({position: -1}),
+            this._model.find({userId, title: { $regex: search, $options: "i" } }).sort({position: 1}).skip(skip).limit(limit),
             this._model.countDocuments({userId})
         ]);
         return {images, total};

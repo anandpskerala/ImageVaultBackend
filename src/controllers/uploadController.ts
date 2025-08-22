@@ -33,8 +33,9 @@ export class UploadController {
     }
 
     public getImages = async (req: CustomRequest, res: Response): Promise<void> => {
+        const { page, search, limit } = req.query;
         const userId = req.userId as string;
-        const result = await this._service.getImages(userId);
+        const result = await this._service.getImages(userId, Number(page), search as string, Number(limit));
         res.status(result.status).json({message: result.message, images: result.images, total: result.total});
     }
 

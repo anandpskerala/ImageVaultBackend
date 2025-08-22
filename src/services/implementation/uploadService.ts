@@ -130,9 +130,9 @@ export class UploadService implements IUploadService {
         }
     }
 
-    async getImages(userId: string): Promise<UploadReturnType & { total?: number }> {
+    async getImages(userId: string, page: number, search: string, limit: number): Promise<UploadReturnType & { total?: number }> {
         try {
-            const { images, total } = await this._repo.getImages(userId);
+            const { images, total } = await this._repo.getImages(userId, page, search, limit);
             return {
                 message: "Fetched images",
                 status: StatusCode.OK,
