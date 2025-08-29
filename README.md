@@ -142,4 +142,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 Contact
 -------
 
-For questions or support, contact [Anand P S](mailto:anandps002@gmail.com) or join the [Telegram Support Chat](https://t.me/Anandpskerala).
+For questions or support, contact [Anand P S](mailto:anandps002@gmail.com).
